@@ -11,6 +11,7 @@ type to fit the data.
 4. Store the results in an array
 5. Represent the result in graphical representation as given below.
 ### PROGRAM:
+```
 import matplotlib.pyplot as plt
 
 import numpy as np
@@ -23,21 +24,40 @@ data = [3, 16, 156, 47, 246, 176, 233, 140, 130,
 33, 6, 158, 80, 35, 186, 127]
 
 lags = range(35)
-
+N = len(data)
 
 #Pre-allocate autocorrelation table
+autocorr_values = []
 
 #Mean
+mean_data = np.mean(data)
 
 #Variance
-
-#Normalized data
+variance_data = np.var(data)
 
 #Go through lag components one-by-one
 
-#display the graph
+for lag in lags:
+  if lag == 0:
+    autocorr_values.append(1) # Autocorrelation at lag 0 is 1
+  else:
+    # Calculate autocovariance for the current lag
+    auto_cov = np.sum((data[:-lag] - mean_data) * (data[lag:] - mean_data)) / N
 
+    # Calculate autocorrelation and append to the list
+    autocorr_values.append(auto_cov / variance_data)
+
+#display the graph
+plt.figure(figsize=(10, 6))
+plt.stem(lags, autocorr_values)
+plt.title('Autocorrelation of Data')
+plt.xlabel('Lag')
+plt.ylabel('Autocorrelation')
+plt.grid(True)
+plt.show()
+```
 ### OUTPUT:
+<img width="907" height="504" alt="image" src="https://github.com/user-attachments/assets/d9e41e0a-44a0-409c-a11d-9ef29db25355" />
 
 ### RESULT:
         Thus we have successfully implemented the auto correlation function in python.
